@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WiFi Credentials Update</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f0f4f8; }
+        .container { background: #fff; padding: 2em; border-radius: 10px; box-shadow: 0 2px 8px #ccc; max-width: 400px; margin: 5em auto; }
+        h2 { color: #008CBA; }
+        label { display: block; margin-top: 1em; }
+        input { width: 100%; padding: 0.5em; margin-top: 0.5em; }
+        button { margin-top: 1.5em; padding: 0.7em 2em; background: #008CBA; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+        #result { margin-top: 1em; color: green; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Update WiFi Credentials</h2>
+        <form id="wifiForm">
+            <label for="ssid">SSID:</label>
+            <input type="text" id="ssid" name="ssid" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Update</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script>
+        document.getElementById('wifiForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const ssid = document.getElementById('ssid').value;
+            const password = document.getElementById('password').value;
+            const res = await fetch('/update', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ssid, password})
+            });
+            document.getElementById('result').innerText = await res.text();
+        };
+    </script>
+</body>
+</html>
